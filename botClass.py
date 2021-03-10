@@ -20,7 +20,9 @@ class ChitraguptClient(discord.Client):
     async def on_ready(self):
         try:
             with open("eventLog.txt") as eventLog:
-                eventDict = loads(eventLog.read())
+                content = eventLog.read()
+                if content :
+                    self.eventDict = loads(content)
 
             print('Logged on as {0}!'.format(self.user))
             await self.change_presence(activity=self.botActivity)
