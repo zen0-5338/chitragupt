@@ -159,7 +159,7 @@ class ChitraguptClient(discord.Client):
                 eventLog.write(dumps(self.eventDict))
 
             await context.remove(context.user)
-            await reaction.message.edit(embed = self.eventEmbed)
+            await context.message.edit(embed = self.eventEmbed)
 
         except KeyError:
             pass
