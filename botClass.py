@@ -142,7 +142,7 @@ class ChitraguptClient(discord.Client):
     # async def createEventChannel(self,guild,category=None):
         
     async def on_raw_reaction_add(self,context):
-        if context.user == self.user:
+        if context.user_id == self.user.id:
             return
 
         try:
@@ -150,9 +150,9 @@ class ChitraguptClient(discord.Client):
             self.eventEmbed.participants = self.eventDict[str(context.message_id)]["fields"][0]["value"]
             
             if self.eventEmbed.participants == "None":
-                self.eventEmbed.participants = self.tagUserTemplateString.format(context.user.id) + "\n"
+                self.eventEmbed.participants = self.tagUserTemplateString.format(context.user_id) + "\n"
             else:
-                self.eventEmbed.participants += self.tagUserTemplateString.format(context.user.id) + "\n"
+                self.eventEmbed.participants += self.tagUserTemplateString.format(context.user_id) + "\n"
 
             self.eventEmbed.set_field_at(index = 0, name="Participants",value=self.eventEmbed.participants)
             self.eventDict[str(context.message.id)] = self.eventEmbed.to_dict()
@@ -160,7 +160,7 @@ class ChitraguptClient(discord.Client):
             with open("eventLog.txt","w") as eventLog:
                 eventLog.write(dumps(self.eventDict))
 
-            await context.remove(context.user)
+            await context.remove(context.user_id)
             await context.message.edit(embed = self.eventEmbed)
 
         except KeyError:
